@@ -84,10 +84,10 @@ class CsvReader implements Iterator {
 	protected $filename = null;
 	protected $currentLine = null;
 	protected $currentArray = null;
-	protected $separator = ';';
+	protected $separator = ',';
 	
 
-	public function __construct($filename, $separator = ';') {
+	public function __construct($filename, $separator = ',') {
 		$this->separator = $separator;
 		$this->fileHandle = fopen($filename, 'r');
 		if (!$this->fileHandle) return;
