@@ -3,7 +3,6 @@ require_once('csv.php');
 setlocale(LC_TIME, "fi_FI");
 date_default_timezone_set('Europe/Helsinki');
 
-
 function calculateHours($hourInterval){
 
 		$hoursArray = preg_split("#-#", $hourInterval);
@@ -44,6 +43,7 @@ function calculateDaysRange($dayInterval){
 // Parse CSV
 $lines = new CsvReader(dirname(__FILE__).'/ravintolat.csv', $separator=";");
 
+$optimizedRestaurantArray = array("Name", "OpeningHours");
 
 foreach ($lines as $key => $values) {
 
@@ -97,12 +97,17 @@ foreach ($lines as $key => $values) {
 
 	}
 
-	array_push($values, $hourCount);
+	$restaurantValues = array($values[1] => $hourCount);
+
+	array_push($optimizedRestaurantArray, $restaurantValues);
+	
+	
 	
 	$foo = "bar";
 	
 }
 
+print_r($optimizedRestaurantArray);
 
 ?>
 
