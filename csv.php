@@ -136,7 +136,8 @@ class CsvReader implements Iterator {
 	}
 
 	protected function _readLine() {
-		if (!feof($this->fileHandle)) $this->currentLine = trim(utf8_encode(fgets($this->fileHandle)));
+		//if (!feof($this->fileHandle)) $this->currentLine = trim(utf8_encode(fgets($this->fileHandle)));
+		if (!feof($this->fileHandle)) $this->currentLine = trim(fgets($this->fileHandle));
 		else $this->currentLine = null;
 		if ($this->currentLine != '') $this->currentArray = Csv::parseString($this->currentLine, $this->separator);
 		else $this->currentArray = null;
