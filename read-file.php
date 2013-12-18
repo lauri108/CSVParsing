@@ -3,6 +3,14 @@ require_once('csv.php');
 setlocale(LC_TIME, "fi_FI");
 date_default_timezone_set('Europe/Helsinki');
 
+/**
+  * Counts the number of hours in an hour range.
+  *
+  * @param string $dayInterval String in the format "HH:MM-HH:MM".
+  * @author Lauri Jalonen, tapani108@gmail.com
+  * @return int Returns the number of hours.
+  * 
+  */
 function calculateHours($hourInterval){
 
 		$hoursArray = preg_split("#-#", $hourInterval);
@@ -19,6 +27,15 @@ function calculateHours($hourInterval){
 	} 
 
 
+/**
+  * Counts the number of days in a day range.
+  *
+  * @param string $dayInterval String in the format "Mon-Wed".
+  * @author Lauri Jalonen, tapani108@gmail.com
+  * @return int Returns the number of elements.
+  * 
+  */
+  
 function calculateDaysRange($dayInterval){
 
 		// used for calculating the difference of two weekdays
@@ -43,7 +60,12 @@ function calculateDaysRange($dayInterval){
 // Parse CSV
 $lines = new CsvReader(dirname(__FILE__).'/ravintolat.csv', $separator=";");
 
-$optimizedRestaurantArray = array("Name", "OpeningHours");
+// Set vars for min and max opening times
+$leastOpeningHours = 10000;
+$leastOpenRestaurantName = "";
+
+$mostOpenRestaurantName = "";
+$mostOpeningHours = 0;
 
 foreach ($lines as $key => $values) {
 
@@ -51,6 +73,7 @@ foreach ($lines as $key => $values) {
 	// at the end of the iteration, the $lines array needs to have a 
 	// new key containing this count.
 	$hourCount = 0;
+	
 
 	//get both day and opening times into an array
 	$openingTimes = preg_split("(, )", $values[4]);
@@ -68,7 +91,6 @@ foreach ($lines as $key => $values) {
 		$totalHours = 0;
 		
 		// this RegExp checks for a day range instead of one day
-		// TODO: make this work, now returning errors
 		
 		$moreOpeningDaysRegEx = "#^[a-zA-Z]{2}-[a-zA-Z]{2}$#";
 		$openingDaysMatch = preg_grep($moreOpeningDaysRegEx, $dayAndTimeArray);
@@ -89,25 +111,31 @@ foreach ($lines as $key => $values) {
 		$hoursOpenTotal = $totalHours * $openingDayMultiplier;
 		
 		$hourCount += $hoursOpenTotal;
-		
-		$openingTimeRegOne = "#^[a-zA-Z]{2}[\s{1}][0-9]+:[0-9]+-[0-9]+:[0-9]+$#";
-		//$openingTimeRegTwo = "#[a-zA-Z]{2}-[a-zA-Z]{2} [0-9]+:[0-9]+-[0-9]+:[0-9]+#";
-		//$openingTimeRegThree = "#[a-zA-Z]{2} [0-9]+:[0-9]+-[0-9]+:[0-9]+ ja [0-9]+:[0-9]+-[0-9]+:[0-9]+#";
-		//$openingTimeRegFour = "#[a-zA-Z]{2}-[a-zA-Z]{2} [0-9]+:[0-9]+-[0-9]+:[0-9]+ ja [0-9]+:[0-9]+-[0-9]+:[0-9]+#";
 
 	}
 
-	$restaurantValues = array($values[1] => $hourCount);
-
-	array_push($optimizedRestaurantArray, $restaurantValues);
+	if($hourCount > $mostOpeningHours){
+		
+		$mostOpeningHours = $hourCount;
+		$mostOpenRestaurantName = $values[1];
+		
+	}
 	
-	
-	
-	$foo = "bar";
-	
+	if($hourCount < $leastOpeningHours){
+		
+		$leastOpeningHours = $hourCount;
+		$leastOpenRestaurantName = $values[1];
+		
+	}
+		
+	$foo = "bar"; // breakpoint
 }
 
-print_r($optimizedRestaurantArray);
+print_r("---------" . PHP_EOL);
+print_r($mostOpenRestaurantName . ", open " . $mostOpeningHours . " hours a week");
+print_r(PHP_EOL);
+print_r($leastOpenRestaurantName . ", open " . $leastOpeningHours . " hours a week");
+print_r(PHP_EOL . "---------");
 
 ?>
 
