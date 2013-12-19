@@ -27,7 +27,7 @@ class RestaurantTest extends PHPUnit_Framework_TestCase
 	public function testOpeningHoursPerWeek (){
 		
 		$totalHours = $this->restaurantObject->getOpeningHoursPerWeekTotal();
-		//$this->assertTrue($totalHours == "19.5");
+		$this->assertTrue($totalHours == "19.5");
 		
 	}
 	
