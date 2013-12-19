@@ -101,7 +101,7 @@ date_default_timezone_set('Europe/Helsinki');
 					$totalHours += $this->calculateHours($openingTimePeriod);
 				}
 					
-				$openingHoursTotal = $totalHours * $openingDayMultiplier;
+				$openingHoursTotal += ($totalHours * $openingDayMultiplier);
 					
 			}
 			
