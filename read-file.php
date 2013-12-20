@@ -1,7 +1,7 @@
 <?php
 
 // CSV parser from https://github.com/ockam/php-csv
-require_once('csv.php');
+require_once('CSVParser.php');
 
 require_once('Restaurant.php');
 
@@ -9,7 +9,7 @@ setlocale(LC_TIME, "fi_FI");
 date_default_timezone_set('Europe/Helsinki');
 
 // Parse CSV
-$lines = new CsvReader(dirname(__FILE__).'/ravintolat.csv', $separator=";");
+$arrayOfRestaurants = new CSVParser(dirname(__FILE__).'/ravintolat.csv', $separator=";");
 
 // Set vars for min and max opening times
 $leastOpeningHours = 10000;
@@ -20,7 +20,7 @@ $mostOpenRestaurantName = "";
 
 $csvstring = "";
 
-foreach ($lines as $key => $values) {
+foreach ($arrayOfRestaurants as $key => $values) {
 
 	// used for comparing the current Restaurant total hours to whole array min and max
 	$restaurantTotalWeeklyOpeningHours = 0;
