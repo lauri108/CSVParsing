@@ -1,5 +1,8 @@
 <?php
+
+// CSV parser from https://github.com/ockam/php-csv
 require_once('csv.php');
+
 require_once('Restaurant.php');
 
 setlocale(LC_TIME, "fi_FI");
