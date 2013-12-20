@@ -1,6 +1,8 @@
 <?php
 
-class Csv {
+// CSV parser from https://github.com/ockam/php-csv
+
+class CSVParser {
 	// take a CSV line (utf-8 encoded) and returns an array
 	// 'string1,string2,"string3","the ""string4"""' => array('string1', 'string2', 'string3', 'the "string4"')
 	static public function parseString($string, $separator = ',') {
