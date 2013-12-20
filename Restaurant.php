@@ -1,8 +1,5 @@
 <?php
 
-setlocale(LC_TIME, "fi_FI");
-date_default_timezone_set('Europe/Helsinki');
-
 	/**
 		* Counts the number of hours in an hour range.
 		*
