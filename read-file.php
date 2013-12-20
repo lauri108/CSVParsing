@@ -12,8 +12,8 @@ $lines = new CsvReader(dirname(__FILE__).'/ravintolat.csv', $separator=";");
 $leastOpeningHours = 10000;
 $leastOpenRestaurantName = "";
 
-$mostOpenRestaurantName = "";
 $mostOpeningHours = 0;
+$mostOpenRestaurantName = "";
 
 $csvstring = "";
 
@@ -27,11 +27,6 @@ foreach ($lines as $key => $values) {
 	$currentRestaurant = new Restaurant($values);
  	$hourCount = $currentRestaurant->getOpeningHoursPerWeekTotal();
 	$restaurantName = $currentRestaurant->getName();
-
-	// $numberFormatter = new NumberFormatter('fi', NumberFormatter::DECIMAL);
-	// $formattedHoursTotal = $numberFormatter->format($hoursOpenTotal);
-	
-	$csvstring .= $restaurantName . ";" . $hourCount . ";\n";
 	
 	if($hourCount > $mostOpeningHours){
 		
@@ -46,8 +41,9 @@ foreach ($lines as $key => $values) {
 		$leastOpenRestaurantName = $currentRestaurant->getName();
 		
 	}
-		
-	$foo = "bar"; // breakpoint
+	
+	// output a CSV string with only the names and counts
+	// $csvstring .= $restaurantName . ";" . $hourCount . ";\n";
 }
 
 //print_r($csvstring);
