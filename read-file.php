@@ -22,25 +22,23 @@ $csvstring = "";
 
 foreach ($lines as $key => $values) {
 
-	// the master hour counter. This is restarted at every iteration.
-	// at the end of the iteration, the $lines array needs to have a 
-	// new key containing this count.
-	$hourCount = 0;
+	// used for comparing the current Restaurant total hours to whole array min and max
+	$restaurantTotalWeeklyOpeningHours = 0;
 	
 	$currentRestaurant = new Restaurant($values);
- 	$hourCount = $currentRestaurant->getOpeningHoursPerWeekTotal();
+ 	$restaurantTotalWeeklyOpeningHours = $currentRestaurant->getOpeningHoursPerWeekTotal();
 	$restaurantName = $currentRestaurant->getName();
 	
-	if($hourCount > $mostOpeningHours){
+	if($restaurantTotalWeeklyOpeningHours > $mostOpeningHours){
 		
-		$mostOpeningHours = $hourCount;
+		$mostOpeningHours = $restaurantTotalWeeklyOpeningHours;
 		$mostOpenRestaurantName = $currentRestaurant->getName();
 		
 	}
 	
-	if($hourCount < $leastOpeningHours){
+	if($restaurantTotalWeeklyOpeningHours < $leastOpeningHours){
 		
-		$leastOpeningHours = $hourCount;
+		$leastOpeningHours = $restaurantTotalWeeklyOpeningHours;
 		$leastOpenRestaurantName = $currentRestaurant->getName();
 		
 	}
