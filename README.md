@@ -1,3 +1,5 @@
+A small excercise inspired by https://github.com/solinor/PHPUG-Finland-Champion
+
 CSVParsing
 ==========
 Parses a CSV file with opening times.
