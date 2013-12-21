@@ -30,7 +30,13 @@
 			$this->_latitude = $arrayItem[5];
 			$this->_longitude = $arrayItem[6];		
 			$this->_openingHoursPerWeekTotal = $this->createTotalOpeningHoursPerWeek($arrayItem[4]);
-		
+			
+			if($this->_restaurantName == null)
+				throw new Exception("Restaurant with id {$this->_id}: name not available");
+				
+			if($this->_openingHoursPerWeekTotal == 0)
+				throw new Exception("Couldn't parse the opening time for restaurant {$this->_restaurantName}");
+
 		}
 	
 		public function __destruct() {
