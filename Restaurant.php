@@ -68,7 +68,10 @@
 		* 
 		*/
 		public function createTotalOpeningHoursPerWeek($openingTimesString){
-	
+			
+			if(($openingTimesString == null) || ($openingTimesString == ""))
+				throw new Exception("No opening times string given for Restaurant {$this->getName()}");
+				
 			$openingHoursTotal = null;
 			
 			//get both day and opening times into an array
@@ -122,7 +125,10 @@
 		* 
 		*/
 		public function calculateHours($hourInterval){
-	
+			
+			if($hourInterval == null)
+				throw new Exception("No hour interval given");
+				
 			$hoursArray = preg_split("#-#", $hourInterval);
 			
 			$firstHoursAndMinutesArray = preg_split("#:#",$hoursArray[0]);
@@ -132,7 +138,10 @@
 			$secondHour = $secondHoursAndMinutesArray[0] + $secondHoursAndMinutesArray[1]/60;
 							
 			$hoursAndMinutesCombined = $secondHour - $firstHour;
-	
+			
+			if($hoursAndMinutesCombined == 0)
+				throw new Exception("Restaurant {$this->getName()} has an opening time of 0 hours");
+				
 			return $hoursAndMinutesCombined;
 	
 		} 
@@ -149,6 +158,9 @@
 		  */
 	  
 		public function calculateDaysRange($dayInterval){
+			
+			if($dayInterval == null)
+				throw new Exception("No day interval given");
 				
 			$weekdayNumbers = array("Ma"=>"1", "Ti"=>"2", "Ke"=>"3", "To"=>"4", "Pe"=>"5","La"=>"6","Su"=>"7");
 			$totalDays = null;
