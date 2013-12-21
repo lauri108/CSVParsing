@@ -18,7 +18,7 @@ class CSVParser {
 			if ($len > 0 and $token[0] == '"') { // if quoted
 				$token = substr($token, 1); // remove leading quote
 				do { // concatenate with next token while incomplete
-					$complete = Csv::_hasEndQuote($token);
+					$complete = CSVParser::_hasEndQuote($token);
 					$token = str_replace('""', '"', $token); // unescape escaped quotes
 					$len = strlen($token);
 					if ($complete) { // if complete
@@ -78,72 +78,4 @@ class CSVParser {
 		else return null;
 	}
 }
-
-class CsvReader implements Iterator {
-
-	protected $fileHandle = null;
-	protected $position = null;
-	protected $filename = null;
-	protected $currentLine = null;
-	protected $currentArray = null;
-	protected $separator = ',';
-	
-
-	public function __construct($filename, $separator = ',') {
-		$this->separator = $separator;
-		$this->fileHandle = fopen($filename, 'r');
-		if (!$this->fileHandle) return;
-		$this->filename = $filename;
-		$this->position = 0;
-		$this->_readLine();
-	}
-
-	public function __destruct() {
-		$this->close();
-	}
-
-	// You should not have to call it unless you need to
-	// explicitly free the file descriptor
-	public function close() {
-		if ($this->fileHandle) {
-			fclose($this->fileHandle);
-			$this->fileHandle = null;
-		}
-	}
-
-	public function rewind() {
-		if ($this->fileHandle) {
-			$this->position = 0;
-			rewind($this->fileHandle);
-		}
-
-		$this->_readLine();
-	}
-
-	public function current() {
-		return $this->currentArray;
-	}
-
-	public function key() {
-		return $this->position;
-	}
-
-	public function next() {
-		$this->position++;
-		$this->_readLine();
-	}
-
-	public function valid() {
-		return $this->currentArray !== null;
-	}
-
-	protected function _readLine() {
-		//if (!feof($this->fileHandle)) $this->currentLine = trim(utf8_encode(fgets($this->fileHandle)));
-		if (!feof($this->fileHandle)) $this->currentLine = trim(fgets($this->fileHandle));
-		else $this->currentLine = null;
-		if ($this->currentLine != '') $this->currentArray = Csv::parseString($this->currentLine, $this->separator);
-		else $this->currentArray = null;
-	}
-}
-
 
