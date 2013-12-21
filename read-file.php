@@ -53,22 +53,23 @@ foreach ($arrayOfRestaurants as $key => $currentRestaurantValues) {
 			
 		}
 	
+	// output a CSV string with only the names and counts
+	$csvstring .= "{$restaurantName};{$restaurantTotalWeeklyOpeningHours};\n";
+
 	} catch (Exception $e) {
 		
     	echo "There was an exception: {$e->getMessage()} \n";
 	
 	}
-	// output a CSV string with only the names and counts
-	$csvstring .= "{$restaurantName};{$hourCount};\n";
 }
 
 //print_r($csvstring);
 
-print_r("--------- {PHP_EOL}");
-print_r("{$mostOpenRestaurantName}, open {$mostOpeningHours} hours a week");
-print_r(PHP_EOL);
-print_r("{$leastOpenRestaurantName} , open {$leastOpeningHours} hours a week");
-print_r("{PHP_EOL}---------");
+echo "--------- \n";
+echo "{$mostOpenRestaurantName}, open {$mostOpeningHours} hours a week";
+echo "\n";
+echo "{$leastOpenRestaurantName} , open {$leastOpeningHours} hours a week";
+echo "\n---------";
 
 ?>
 
