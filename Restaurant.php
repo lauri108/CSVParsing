@@ -1,16 +1,16 @@
 <?php
 
 	/**
-		* Counts the number of hours in an hour range.
-		*
-		* @param Array $arrayItem An array containing restaurant elements.
-		* @author Lauri Jalonen, tapani108@gmail.com
-		*/
+	* A helper class to organize restaurant information
+	*
+	* @param Array $arrayItem An array containing restaurant elements:
+	 * ID;RESTAURANT NAME;POSTCODE;CITY;OPEN HOURS;LATITUDE;LONGITUDE
+	 *
+	* @author Lauri Jalonen, tapani108@gmail.com
+	*/
 
     class Restaurant {
-		
-		## ID;RESTAURANT NAME;POSTCODE;CITY;OPEN HOURS;LATITUDE;LONGITUDE
-	
+			
 		protected $_id = null;
 		protected $_restaurantName = null;
 		protected $_postcode = null;
@@ -44,7 +44,7 @@
 		}
 		
 		public function close() {
-		//
+	
 		}
 		
 		public function getName(){
@@ -60,11 +60,12 @@
 		}
 		
 		/**
-		* Gets the opening times.
+		* Translates an opening days and hours string into a weekly hour total.
 		*
-		* @param string $openingTimesString String in the format "DD[-DD] HH:MM-HH:MM [ja HH:MM-HH:MM]".
+		* @param string $openingTimesString String in the format 
+		 * "DD[-DD] HH:MM-HH:MM [ja HH:MM-HH:MM][,DD[-DD] HH:MM-HH:MM [ja HH:MM-HH:MM]]".
 		* @author Lauri Jalonen, tapani108@gmail.com
-		* @return int Returns the total number of hours.
+		* @return int Returns the total number of weekly opening hours.
 		* 
 		*/
 		public function createTotalOpeningHoursPerWeek($openingTimesString){
@@ -74,10 +75,10 @@
 				
 			$openingHoursTotal = null;
 			
-			//get both day and opening times into an array
-			$openingTimes = preg_split("(, )", $openingTimesString);
+			//get all opening day+time snippets into an array
+			$openingDayTimes = preg_split("(, )", $openingTimesString);
 			
-			foreach ($openingTimes as $key => $openingTime) {
+			foreach ($openingDayTimes as $key => $openingTime) {
 		
 				// seaparate the opening day(s) and time(s) into an array
 				$dayAndTimeArray = preg_split("# #", $openingTime);
@@ -111,7 +112,6 @@
 					
 			}
 			
-			//$this->_openingHoursPerWeekTotal = $hoursOpenTotal;
 			return $openingHoursTotal;
 	
 		} 
