@@ -10,6 +10,12 @@ require_once('Restaurant.php');
 setlocale(LC_TIME, "fi_FI");
 date_default_timezone_set('Europe/Helsinki');
 
+function outputError (Exception $errorObject) {
+	
+	echo "An exception with one of the restaurants: {$errorObject->getMessage()} \n";	
+	
+}
+
 // Read and parse CSV
 $arrayOfRestaurants = new CSVReader(dirname(__FILE__).'/ravintolat.csv', $separator=";");
 
@@ -54,12 +60,12 @@ foreach ($arrayOfRestaurants as $key => $currentRestaurantValues) {
 		}
 	
 	// output a CSV string with only the names and counts
-	$csvstring .= "{$restaurantName};{$restaurantTotalWeeklyOpeningHours};\n";
+	// $csvstring .= "{$restaurantName};{$restaurantTotalWeeklyOpeningHours};\n";
 
-	} catch (Exception $e) {
+	} catch (Exception $returnedError) {
 		
-    	echo "There was an exception: {$e->getMessage()} \n";
-	
+    	outputError($returnedError);
+		
 	}
 }
 
