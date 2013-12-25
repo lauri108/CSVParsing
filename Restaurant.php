@@ -29,7 +29,7 @@
 			$this->_openingTimes = $arrayItem[4];
 			$this->_latitude = $arrayItem[5];
 			$this->_longitude = $arrayItem[6];		
-			$this->_openingHoursPerWeekTotal = $this->createTotalOpeningHoursPerWeek($arrayItem[4]);
+			$this->_openingHoursPerWeekTotal = $this->calculateTotalOpeningHoursPerWeek($arrayItem[4]);
 			
 			if($this->_restaurantName == null)
 				throw new Exception("Restaurant with id {$this->_id}: name not available");
@@ -59,6 +59,28 @@
 			
 		}
 		
+		public function setOpeningHoursPerWeekTotal ($amountOfHours) {
+			
+			$this->_openingHoursPerWeekTotal = $amountOfHours;
+			
+		}
+		
+		public function setName ($nameToUse) {
+			
+			$this->_restaurantName = $nameToUse;
+			
+		}
+		
+		/**
+		 * Uses another Restaurant to set name and opening hour values of this restaurant
+		 */
+		
+		public function updateNameAndOpeningHours(Restaurant $restaurantToUseForValues){
+			
+			$this->setOpeningHoursPerWeekTotal($restaurantToUseForValues->getOpeningHoursPerWeekTotal());
+			$this->setName($restaurantToUseForValues->getName());	
+		}
+		
 		/**
 		* Translates an opening days and hours string into a weekly hour total.
 		*
@@ -68,10 +90,14 @@
 		* @return int Returns the total number of weekly opening hours.
 		* 
 		*/
-		public function createTotalOpeningHoursPerWeek($openingTimesString){
+		public function calculateTotalOpeningHoursPerWeek($openingTimesString){
 			
-			if(($openingTimesString == null) || ($openingTimesString == ""))
+			
+			if(($openingTimesString == null) || ($openingTimesString == "")) {
+				
 				throw new Exception("No opening times string given for Restaurant {$this->getName()}");
+				
+			}
 				
 			$openingHoursTotal = null;
 			
