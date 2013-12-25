@@ -21,8 +21,14 @@ function outputError (Exception $errorObject) {
 // Read and parse CSV
 $arrayOfRestaurants = new CSVReader(dirname(__FILE__).'/ravintolat.csv', $separator=";");
 
-// Set vars for min and max opening times
-$maxAndMinOpens = array("leastOpenHours"=>100000, "leastOpenName"=>"", "mostOpenHours"=>0, "mostOpenName");
+
+// TODO: use Restaurant objects for the max and min comparisons.
+// create proper method for the class (update name and openingHours at the same time)
+
+
+// instantiate two Restaurants for min and max comparisons
+$maxRestaurant = new Restaurant(array("","RESTAURANT1","","","Ma 15:00-16:00","",""));
+$minRestaurant = new Restaurant(array("","RESTAURANT2","","","Ma-Pe 01:00-23:00","",""));
 
 // This var is used for optional CSV output for testing purposes
 $csvstring = "";
@@ -42,21 +48,18 @@ foreach ($arrayOfRestaurants as $key => $currentRestaurantValues) {
 		$currentRestaurantName = $currentRestaurant->getName();
 		
 		// check whether current Restaurant has the most hours so far
-		if($currentRestaurantTotalWeeklyOpeningHours > $maxAndMinOpens["mostOpenHours"]){
+		if($currentRestaurantTotalWeeklyOpeningHours > $maxRestaurant->getOpeningHoursPerWeekTotal()){
 							
-			// if so, update the most opened entry with current Restaurant values
-			
-			$maxAndMinOpens["mostOpenHours"] = $currentRestaurantTotalWeeklyOpeningHours;
-			$maxAndMinOpens["mostOpenName"] = $currentRestaurantName;
+			// if so, update the most opened entry with current Restaurant values		
+			$maxRestaurant->updateNameAndOpeningHours($currentRestaurant);
 			
 		}
 		
 		// check whether current Restaurant has the least hours so far
-		if($currentRestaurantTotalWeeklyOpeningHours < $maxAndMinOpens["leastOpenHours"]){
+		if($currentRestaurantTotalWeeklyOpeningHours < $minRestaurant->getOpeningHoursPerWeekTotal()){
 			
 			// if so, update the least opened entry with current Restaurant values
-			$maxAndMinOpens["leastOpenHours"] = $currentRestaurantTotalWeeklyOpeningHours;
-			$maxAndMinOpens["leastOpenName"] = $currentRestaurantName;
+			$minRestaurant->updateNameAndOpeningHours($currentRestaurant);
 			
 		}
 	
@@ -72,12 +75,24 @@ foreach ($arrayOfRestaurants as $key => $currentRestaurantValues) {
 
 //print_r($csvstring);
 
+
+echo "--------- \n";
+echo "{$maxRestaurant->getName()}, open {$maxRestaurant->getOpeningHoursPerWeekTotal()} hours a week";
+echo "\n";
+echo "{$minRestaurant->getName()} , open {$minRestaurant->getOpeningHoursPerWeekTotal()} hours a week";
+echo "\n---------";
+
+
+/*
 echo "--------- \n";
 echo "{$maxAndMinOpens["mostOpenName"]}, open {$maxAndMinOpens["mostOpenHours"]} hours a week";
 echo "\n";
 echo "{$maxAndMinOpens["leastOpenName"]} , open {$maxAndMinOpens["leastOpenHours"]} hours a week";
 echo "\n---------";
 
+ * 
+ * 
+ */
 ?>
 
 
