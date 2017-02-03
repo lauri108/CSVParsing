@@ -1,6 +1,6 @@
 <?php
 
-require_once('Restaurant.php');
+require_once('./Restaurant.php');
 
 class RestaurantTest extends PHPUnit_Framework_TestCase
 {
@@ -39,10 +39,10 @@ class RestaurantTest extends PHPUnit_Framework_TestCase
 		// this should return 19.5
 		$openingTimes2 = "Ma 09:30-12:30 ja 13:00-16:30, Ke 09:30-12:30 ja 13:00-16:30, Pe 09:30-12:30 ja 13:00-16:30"; 
 		
-		$totalHours = $this->restaurantObject->createTotalOpeningHoursPerWeek($openingTimes1);
+		$totalHours = $this->restaurantObject->calculateTotalOpeningHoursPerWeek($openingTimes1);
 		$this->assertTrue($totalHours == "35");
 		
-		$totalHours = $this->restaurantObject->createTotalOpeningHoursPerWeek($openingTimes2);
+		$totalHours = $this->restaurantObject->calculateTotalOpeningHoursPerWeek($openingTimes2);
 		$this->assertTrue($totalHours == "19.5");
 		
 	}
